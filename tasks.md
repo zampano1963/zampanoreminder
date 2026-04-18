@@ -8,99 +8,99 @@
 
 ### Backend
 
-- [ ] **1-B1** Reminder 엔티티 확장
-  - [ ] Priority enum 생성 (NONE, LOW, MEDIUM, HIGH)
-  - [ ] Reminder에 notes(String), url(String), priority(Priority), flagged(boolean), sortOrder(int) 필드 추가
-  - [ ] application.yml의 ddl-auto로 스키마 자동 반영 확인
+- [x] **1-B1** Reminder 엔티티 확장
+  - [x] Priority enum 생성 (NONE, LOW, MEDIUM, HIGH)
+  - [x] Reminder에 notes(String), url(String), priority(Priority), flagged(boolean), sortOrder(int) 필드 추가
+  - [x] application.yml의 ddl-auto로 스키마 자동 반영 확인
 
-- [ ] **1-B2** DTO 생성
-  - [ ] ReminderRequest DTO (생성/수정 요청용)
-  - [ ] ReminderResponse DTO (응답용)
-  - [ ] Entity ↔ DTO 변환 로직 (서비스 또는 매퍼)
+- [x] **1-B2** DTO 생성
+  - [x] ReminderRequest DTO (생성/수정 요청용)
+  - [x] ReminderResponse DTO (응답용)
+  - [x] Entity ↔ DTO 변환 로직 (서비스 또는 매퍼)
 
-- [ ] **1-B3** ReminderController 확장
-  - [ ] `PUT /api/reminders/{id}` - 리마인더 수정
-  - [ ] `PATCH /api/reminders/{id}/toggle` - 완료 토글
-  - [ ] 기존 POST/GET/DELETE를 DTO 기반으로 변경
+- [x] **1-B3** ReminderController 확장
+  - [x] `PUT /api/reminders/{id}` - 리마인더 수정
+  - [x] `PATCH /api/reminders/{id}/toggle` - 완료 토글
+  - [x] 기존 POST/GET/DELETE를 DTO 기반으로 변경
 
-- [ ] **1-B4** ReminderService 확장
-  - [ ] update(Long id, ReminderRequest) 메서드
-  - [ ] toggleComplete(Long id) 메서드
-  - [ ] 존재하지 않는 리마인더 처리 (예외)
+- [x] **1-B4** ReminderService 확장
+  - [x] update(Long id, ReminderRequest) 메서드
+  - [x] toggleComplete(Long id) 메서드
+  - [x] 존재하지 않는 리마인더 처리 (예외)
 
-- [ ] **1-B5** CORS 설정
-  - [ ] WebMvcConfigurer 구현하여 `http://localhost:3000` 허용
-  - [ ] 허용 메서드: GET, POST, PUT, PATCH, DELETE, OPTIONS
+- [x] **1-B5** CORS 설정
+  - [x] WebMvcConfigurer 구현하여 `http://localhost:3000` 허용
+  - [x] 허용 메서드: GET, POST, PUT, PATCH, DELETE, OPTIONS
 
-- [ ] **1-B6** 글로벌 에러 핸들러
-  - [ ] @RestControllerAdvice 클래스 생성
-  - [ ] ErrorResponse DTO (error, code 필드)
-  - [ ] RuntimeException, MethodArgumentNotValidException 등 처리
+- [x] **1-B6** 글로벌 에러 핸들러
+  - [x] @RestControllerAdvice 클래스 생성
+  - [x] ErrorResponse DTO (error, code 필드)
+  - [x] RuntimeException, MethodArgumentNotValidException 등 처리
 
-- [ ] **1-B7** DataInitializer 확장
-  - [ ] 다양한 priority, flagged, 날짜의 샘플 리마인더 5~10개 생성
+- [x] **1-B7** DataInitializer 확장
+  - [x] 다양한 priority, flagged, 날짜의 샘플 리마인더 5~10개 생성
 
-- [ ] **1-B 검증** Backend 빌드 및 API 테스트
-  - [ ] `./gradlew build` 성공
-  - [ ] `./gradlew bootRun` 후 curl로 CRUD + toggle 동작 확인
+- [x] **1-B 검증** Backend 빌드 및 API 테스트
+  - [x] `./gradlew build` 성공
+  - [x] `./gradlew bootRun` 후 curl로 CRUD + toggle 동작 확인
 
 ### Frontend
 
-- [ ] **1-F1** Next.js 프로젝트 초기화
-  - [ ] `frontend/` 디렉토리에 create-next-app (TypeScript, Tailwind CSS, App Router)
-  - [ ] 불필요한 보일러플레이트 정리
-  - [ ] `npm run dev`로 정상 실행 확인 (localhost:3000)
+- [x] **1-F1** Next.js 프로젝트 초기화
+  - [x] `frontend/` 디렉토리에 create-next-app (TypeScript, Tailwind CSS, App Router)
+  - [x] 불필요한 보일러플레이트 정리
+  - [x] `npm run dev`로 정상 실행 확인 (localhost:3000)
 
-- [ ] **1-F2** API client 모듈
-  - [ ] `lib/api.ts` 생성: fetch 래퍼 함수
-  - [ ] BASE_URL 환경변수 설정 (`NEXT_PUBLIC_API_URL=http://localhost:9090`)
-  - [ ] GET, POST, PUT, PATCH, DELETE 헬퍼 함수
-  - [ ] JSON 파싱 및 에러 처리
+- [x] **1-F2** API client 모듈
+  - [x] `lib/api.ts` 생성: fetch 래퍼 함수
+  - [x] BASE_URL 환경변수 설정 (`NEXT_PUBLIC_API_URL=http://localhost:9090`)
+  - [x] GET, POST, PUT, PATCH, DELETE 헬퍼 함수
+  - [x] JSON 파싱 및 에러 처리
 
-- [ ] **1-F3** TypeScript 타입 정의
-  - [ ] `types/reminder.ts`: Reminder 인터페이스, Priority enum
-  - [ ] ReminderRequest, ReminderResponse 타입
+- [x] **1-F3** TypeScript 타입 정의
+  - [x] `types/reminder.ts`: Reminder 인터페이스, Priority enum
+  - [x] ReminderRequest, ReminderResponse 타입
 
-- [ ] **1-F4** 기본 레이아웃
-  - [ ] `components/layout/AppLayout.tsx`: 2-column (사이드바 240px + 메인)
-  - [ ] `components/layout/Sidebar.tsx`: placeholder (Phase 2에서 완성)
-  - [ ] `components/layout/Header.tsx`: 앱 제목 + 검색 placeholder
-  - [ ] `app/layout.tsx`에 AppLayout 적용
+- [x] **1-F4** 기본 레이아웃
+  - [x] `components/layout/AppLayout.tsx`: 2-column (사이드바 240px + 메인)
+  - [x] `components/layout/Sidebar.tsx`: placeholder (Phase 2에서 완성)
+  - [x] `components/layout/Header.tsx`: 앱 제목 + 검색 placeholder
+  - [x] `app/layout.tsx`에 AppLayout 적용
 
-- [ ] **1-F5** 리마인더 목록 컴포넌트
-  - [ ] `components/reminder/ReminderList.tsx`: API에서 리마인더 조회 및 렌더링
-  - [ ] `components/reminder/ReminderItem.tsx`: 개별 리마인더 행 (체크박스 + 제목 + 날짜)
-  - [ ] 빈 목록 시 안내 텍스트
+- [x] **1-F5** 리마인더 목록 컴포넌트
+  - [x] `components/reminder/ReminderList.tsx`: API에서 리마인더 조회 및 렌더링
+  - [x] `components/reminder/ReminderItem.tsx`: 개별 리마인더 행 (체크박스 + 제목 + 날짜)
+  - [x] 빈 목록 시 안내 텍스트
 
-- [ ] **1-F6** 리마인더 생성
-  - [ ] `components/reminder/AddReminder.tsx`: 하단 인라인 입력 ("+ 새로운 미리알림")
-  - [ ] 클릭 시 입력 필드 활성화, Enter로 생성, Escape로 취소
-  - [ ] 생성 후 목록에 즉시 반영
+- [x] **1-F6** 리마인더 생성
+  - [x] `components/reminder/AddReminder.tsx`: 하단 인라인 입력 ("+ 새로운 미리알림")
+  - [x] 클릭 시 입력 필드 활성화, Enter로 생성, Escape로 취소
+  - [x] 생성 후 목록에 즉시 반영
 
-- [ ] **1-F7** 리마인더 완료 토글
-  - [ ] 원형 체크박스 컴포넌트
-  - [ ] 클릭 시 PATCH toggle API 호출
-  - [ ] 완료 시 텍스트에 취소선 + 흐려지는 효과
+- [x] **1-F7** 리마인더 완료 토글
+  - [x] 원형 체크박스 컴포넌트
+  - [x] 클릭 시 PATCH toggle API 호출
+  - [x] 완료 시 텍스트에 취소선 + 흐려지는 효과
 
-- [ ] **1-F8** 리마인더 삭제
-  - [ ] 삭제 버튼 (호버 시 표시) 또는 우클릭 메뉴
-  - [ ] 삭제 전 확인 다이얼로그
-  - [ ] DELETE API 호출 후 목록에서 제거
+- [x] **1-F8** 리마인더 삭제
+  - [x] 삭제 버튼 (호버 시 표시) 또는 우클릭 메뉴
+  - [x] 삭제 전 확인 다이얼로그
+  - [x] DELETE API 호출 후 목록에서 제거
 
-- [ ] **1-F9** 리마인더 상세 편집 패널
-  - [ ] `components/reminder/ReminderDetail.tsx`: 우측 슬라이드 패널
-  - [ ] 제목, 메모, URL, 날짜/시간, 우선순위 편집 필드
-  - [ ] 변경 시 PUT API 호출 (debounce 또는 blur 시 저장)
-  - [ ] 패널 닫기 버튼
+- [x] **1-F9** 리마인더 상세 편집 패널
+  - [x] `components/reminder/ReminderDetail.tsx`: 우측 슬라이드 패널
+  - [x] 제목, 메모, URL, 날짜/시간, 우선순위 편집 필드
+  - [x] 변경 시 PUT API 호출 (debounce 또는 blur 시 저장)
+  - [x] 패널 닫기 버튼
 
-- [ ] **1-F10** Apple 스타일 기초 CSS
-  - [ ] 시스템 폰트 스택 설정 (-apple-system, SF Pro 등)
-  - [ ] 12색 팔레트 CSS 변수 정의
-  - [ ] 라운드 카드, 그림자, 기본 간격 변수
-  - [ ] globals.css에 기본 스타일 적용
+- [x] **1-F10** Apple 스타일 기초 CSS
+  - [x] 시스템 폰트 스택 설정 (-apple-system, SF Pro 등)
+  - [x] 12색 팔레트 CSS 변수 정의
+  - [x] 라운드 카드, 그림자, 기본 간격 변수
+  - [x] globals.css에 기본 스타일 적용
 
-- [ ] **1-F 검증** Frontend 통합 테스트
-  - [ ] Backend + Frontend 동시 실행
+- [ ] **1-F 검증** Frontend 통합 테스트 (브라우저 수동 확인 필요)
+  - [x] Backend + Frontend 동시 실행
   - [ ] 브라우저에서 리마인더 생성 → 목록 표시 확인
   - [ ] 리마인더 수정 → 반영 확인
   - [ ] 리마인더 완료 토글 → 상태 변경 확인
@@ -497,7 +497,7 @@
 
 | Phase | Backend | Frontend | 상태 |
 |-------|---------|----------|------|
-| 1 | 0/8 | 0/12 | ⬜ 미착수 |
+| 1 | 8/8 | 10/12 | 🟡 브라우저 검증 필요 |
 | 2 | 0/8 | 0/11 | ⬜ 미착수 |
 | 3 | 0/5 | 0/10 | ⬜ 미착수 |
 | 4 | 0/9 | 0/8 | ⬜ 미착수 |

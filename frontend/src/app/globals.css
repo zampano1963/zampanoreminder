@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+:root {
+  --apple-blue: #007AFF;
+  --apple-red: #FF3B30;
+  --apple-orange: #FF9500;
+  --apple-yellow: #FFCC00;
+  --apple-green: #34C759;
+  --apple-mint: #00C7BE;
+  --apple-teal: #30B0C7;
+  --apple-cyan: #32ADE6;
+  --apple-indigo: #5856D6;
+  --apple-purple: #AF52DE;
+  --apple-pink: #FF2D55;
+  --apple-brown: #A2845E;
+
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F2F2F7;
+  --bg-sidebar: #F2F2F7;
+  --text-primary: #1C1C1E;
+  --text-secondary: #8E8E93;
+  --border-color: #E5E5EA;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1C1C1E;
+    --bg-secondary: #2C2C2E;
+    --bg-sidebar: #2C2C2E;
+    --text-primary: #F2F2F7;
+    --text-secondary: #8E8E93;
+    --border-color: #38383A;
+  }
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Helvetica Neue", Arial, sans-serif;
+}
