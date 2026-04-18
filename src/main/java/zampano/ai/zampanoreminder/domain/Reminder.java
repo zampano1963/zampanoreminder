@@ -1,4 +1,4 @@
-package zampano.ai.zampanoreminder.entity;
+package zampano.ai.zampanoreminder.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,4 +28,8 @@ public class Reminder {
 
     @Column(nullable = false)
     private boolean completed;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "list_id")
+    private ReminderList reminderList;
 }

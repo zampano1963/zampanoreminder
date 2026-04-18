@@ -3,7 +3,7 @@ package zampano.ai.zampanoreminder.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import zampano.ai.zampanoreminder.entity.Reminder;
+import zampano.ai.zampanoreminder.domain.Reminder;
 import zampano.ai.zampanoreminder.service.ReminderService;
 
 import java.util.List;

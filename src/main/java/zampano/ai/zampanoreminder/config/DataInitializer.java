@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import zampano.ai.zampanoreminder.entity.Reminder;
+import zampano.ai.zampanoreminder.domain.Reminder;
 import zampano.ai.zampanoreminder.repository.ReminderRepository;
 
 import java.time.LocalDateTime;

@@ -1,7 +1,7 @@
 package zampano.ai.zampanoreminder.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import zampano.ai.zampanoreminder.entity.Reminder;
+import zampano.ai.zampanoreminder.domain.Reminder;
 
 import java.time.LocalDateTime;
 import java.util.List;

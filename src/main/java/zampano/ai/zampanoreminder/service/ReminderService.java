@@ -3,7 +3,7 @@ package zampano.ai.zampanoreminder.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import zampano.ai.zampanoreminder.entity.Reminder;
+import zampano.ai.zampanoreminder.domain.Reminder;
 import zampano.ai.zampanoreminder.repository.ReminderRepository;
 
 import java.time.LocalDateTime;
