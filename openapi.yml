@@ -1,0 +1,211 @@
+openapi: 3.1.0
+info:
+  title: Zampano Reminder API
+  description: Apple Reminders Web Clone REST API
+  version: 0.1.0
+  contact:
+    email: dataworld2016@naver.com
+
+servers:
+  - url: http://localhost:9090
+    description: Local development server
+
+paths:
+  /api/lists:
+    get:
+      tags:
+        - ReminderList
+      summary: 전체 리스트 조회
+      operationId: findAllLists
+      responses:
+        '200':
+          description: 리스트 목록 반환
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReminderListResponse'
+
+    post:
+      tags:
+        - ReminderList
+      summary: 새 리스트 생성
+      operationId: createList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReminderListRequest'
+            example:
+              name: "업무"
+              color: "#FF3B30"
+              icon: "briefcase"
+              sortOrder: 0
+      responses:
+        '201':
+          description: 리스트 생성 완료
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReminderListResponse'
+
+  /api/lists/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: 리스트 ID
+        schema:
+          type: integer
+          format: int64
+
+    get:
+      tags:
+        - ReminderList
+      summary: 리스트 단건 조회
+      operationId: findListById
+      responses:
+        '200':
+          description: 리스트 반환
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReminderListResponse'
+        '404':
+          description: 리스트를 찾을 수 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags:
+        - ReminderList
+      summary: 리스트 수정
+      operationId: updateList
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReminderListRequest'
+            example:
+              name: "장보기"
+              color: "#34C759"
+              icon: "cart"
+              sortOrder: 2
+      responses:
+        '200':
+          description: 수정된 리스트 반환
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReminderListResponse'
+        '404':
+          description: 리스트를 찾을 수 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags:
+        - ReminderList
+      summary: 리스트 삭제
+      operationId: deleteList
+      responses:
+        '204':
+          description: 삭제 완료
+        '400':
+          description: 기본 리스트는 삭제 불가
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 리스트를 찾을 수 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    ReminderListRequest:
+      type: object
+      required:
+        - name
+        - color
+      properties:
+        name:
+          type: string
+          description: 리스트 이름
+          example: "업무"
+        color:
+          type: string
+          description: "리스트 색상 (HEX)"
+          example: "#FF3B30"
+        icon:
+          type: string
+          description: 리스트 아이콘 이름
+          example: "briefcase"
+        sortOrder:
+          type: integer
+          description: 정렬 순서
+          default: 0
+          example: 0
+
+    ReminderListResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: 리스트 ID
+          example: 1
+        name:
+          type: string
+          description: 리스트 이름
+          example: "업무"
+        color:
+          type: string
+          description: "리스트 색상 (HEX)"
+          example: "#FF3B30"
+        icon:
+          type: string
+          description: 리스트 아이콘 이름
+          example: "briefcase"
+        sortOrder:
+          type: integer
+          description: 정렬 순서
+          example: 0
+        deletable:
+          type: boolean
+          description: 삭제 가능 여부
+          example: true
+        reminderCount:
+          type: integer
+          description: 포함된 리마인더 수
+          example: 3
+        createdAt:
+          type: string
+          format: date-time
+          description: 생성 시각
+        updatedAt:
+          type: string
+          format: date-time
+          description: 수정 시각
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: 에러 메시지
+          example: "ReminderList not found: 99"
+        code:
+          type: string
+          description: 에러 코드
+          example: "NOT_FOUND"
