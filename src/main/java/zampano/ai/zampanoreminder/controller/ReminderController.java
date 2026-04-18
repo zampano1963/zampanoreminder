@@ -1,5 +1,6 @@
 package zampano.ai.zampanoreminder.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +31,12 @@ public class ReminderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ReminderResponse create(@RequestBody ReminderRequest request) {
+    public ReminderResponse create(@Valid @RequestBody ReminderRequest request) {
         return ReminderResponse.from(reminderService.create(request));
     }
 
     @PutMapping("/{id}")
-    public ReminderResponse update(@PathVariable Long id, @RequestBody ReminderRequest request) {
+    public ReminderResponse update(@PathVariable Long id, @Valid @RequestBody ReminderRequest request) {
         return ReminderResponse.from(reminderService.update(id, request));
     }
 

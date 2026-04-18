@@ -22,7 +22,7 @@ public class ReminderListResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static ReminderListResponse from(ReminderList list) {
+    public static ReminderListResponse from(ReminderList list, int reminderCount) {
         return ReminderListResponse.builder()
                 .id(list.getId())
                 .name(list.getName())
@@ -30,7 +30,7 @@ public class ReminderListResponse {
                 .icon(list.getIcon())
                 .sortOrder(list.getSortOrder())
                 .deletable(list.isDeletable())
-                .reminderCount(list.getReminders().size())
+                .reminderCount(reminderCount)
                 .createdAt(list.getCreatedAt())
                 .updatedAt(list.getUpdatedAt())
                 .build();

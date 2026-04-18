@@ -17,6 +17,8 @@ import zampano.ai.zampanoreminder.service.ports.in.ReminderService;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import zampano.ai.zampanoreminder.exception.EntityNotFoundException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -68,7 +70,7 @@ class ReminderServiceTest {
     @DisplayName("존재하지 않는 ID 조회 시 예외가 발생한다")
     void findByIdNotFound() {
         assertThatThrownBy(() -> reminderService.findById(99L))
-                .isInstanceOf(RuntimeException.class)
+                .isInstanceOf(EntityNotFoundException.class)
                 .hasMessageContaining("99");
     }
 

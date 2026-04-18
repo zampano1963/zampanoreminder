@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "reminders")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -68,6 +67,11 @@ public class Reminder {
 
     public void toggleComplete() {
         this.completed = !this.completed;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void assignToList(ReminderList list) {
+        this.reminderList = list;
         this.updatedAt = LocalDateTime.now();
     }
 }

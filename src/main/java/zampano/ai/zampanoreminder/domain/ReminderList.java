@@ -10,7 +10,6 @@ import java.util.List;
 @Entity
 @Table(name = "reminder_lists")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

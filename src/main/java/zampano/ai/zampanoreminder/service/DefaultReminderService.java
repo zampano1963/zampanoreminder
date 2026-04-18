@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import zampano.ai.zampanoreminder.domain.Reminder;
 import zampano.ai.zampanoreminder.domain.ReminderList;
 import zampano.ai.zampanoreminder.dto.ReminderRequest;
+import zampano.ai.zampanoreminder.exception.EntityNotFoundException;
 import zampano.ai.zampanoreminder.repository.ReminderListRepository;
 import zampano.ai.zampanoreminder.repository.ReminderRepository;
 import zampano.ai.zampanoreminder.service.ports.in.ReminderService;
@@ -28,7 +29,7 @@ public class DefaultReminderService implements ReminderService {
     @Override
     public Reminder findById(Long id) {
         return reminderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Reminder not found: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Reminder", id));
     }
 
     @Override
@@ -45,8 +46,8 @@ public class DefaultReminderService implements ReminderService {
 
         if (request.getListId() != null) {
             ReminderList list = reminderListRepository.findById(request.getListId())
-                    .orElseThrow(() -> new RuntimeException("ReminderList not found: " + request.getListId()));
-            reminder.setReminderList(list);
+                    .orElseThrow(() -> new EntityNotFoundException("ReminderList", request.getListId()));
+            reminder.assignToList(list);
         }
 
         return reminderRepository.save(reminder);
@@ -67,8 +68,8 @@ public class DefaultReminderService implements ReminderService {
 
         if (request.getListId() != null) {
             ReminderList list = reminderListRepository.findById(request.getListId())
-                    .orElseThrow(() -> new RuntimeException("ReminderList not found: " + request.getListId()));
-            reminder.setReminderList(list);
+                    .orElseThrow(() -> new EntityNotFoundException("ReminderList", request.getListId()));
+            reminder.assignToList(list);
         }
 
         return reminder;

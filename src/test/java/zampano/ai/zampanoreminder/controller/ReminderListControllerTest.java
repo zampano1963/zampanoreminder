@@ -59,10 +59,11 @@ class ReminderListControllerTest {
     }
 
     @Test
-    @DisplayName("GET /api/lists/{id} - 존재하지 않는 ID 조회 시 500을 반환한다")
+    @DisplayName("GET /api/lists/{id} - 존재하지 않는 ID 조회 시 404를 반환한다")
     void findByIdNotFound() throws Exception {
         mockMvc.perform(get("/api/lists/{id}", 99))
-                .andExpect(status().is5xxServerError());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value("NOT_FOUND"));
     }
 
     @Test
@@ -119,7 +120,7 @@ class ReminderListControllerTest {
                 .andExpect(status().isNoContent());
 
         mockMvc.perform(get("/api/lists/{id}", saved.getId()))
-                .andExpect(status().is5xxServerError());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -129,6 +130,7 @@ class ReminderListControllerTest {
                 ReminderList.builder().name("미리알림").color("#007AFF").deletable(false).build());
 
         mockMvc.perform(delete("/api/lists/{id}", saved.getId()))
-                .andExpect(status().is5xxServerError());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("BAD_REQUEST"));
     }
 }

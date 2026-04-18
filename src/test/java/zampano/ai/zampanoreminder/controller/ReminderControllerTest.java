@@ -154,6 +154,6 @@ class ReminderControllerTest {
                 .andExpect(status().isNoContent());
 
         mockMvc.perform(get("/api/reminders/{id}", saved.getId()))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isNotFound());
     }
 }

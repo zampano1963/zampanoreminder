@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zampano.ai.zampanoreminder.domain.ReminderList;
-import zampano.ai.zampanoreminder.service.ports.in.ReminderListService;
+import zampano.ai.zampanoreminder.exception.BusinessRuleException;
+import zampano.ai.zampanoreminder.exception.EntityNotFoundException;
 import zampano.ai.zampanoreminder.repository.ReminderListRepository;
+import zampano.ai.zampanoreminder.service.ports.in.ReminderListService;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class DefaultReminderListService implements ReminderListService {
     @Override
     public ReminderList findById(Long id) {
         return reminderListRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("ReminderList not found: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("ReminderList", id));
     }
 
     @Override
@@ -51,7 +53,7 @@ public class DefaultReminderListService implements ReminderListService {
     public void delete(Long id) {
         ReminderList list = findById(id);
         if (!list.isDeletable()) {
-            throw new RuntimeException("기본 리스트는 삭제할 수 없습니다: " + id);
+            throw new BusinessRuleException("Default list cannot be deleted: " + id);
         }
         reminderListRepository.delete(list);
     }

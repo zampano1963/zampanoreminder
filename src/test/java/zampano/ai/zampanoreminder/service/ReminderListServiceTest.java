@@ -11,6 +11,9 @@ import zampano.ai.zampanoreminder.repository.ReminderListRepository;
 
 import java.util.List;
 
+import zampano.ai.zampanoreminder.exception.BusinessRuleException;
+import zampano.ai.zampanoreminder.exception.EntityNotFoundException;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -53,7 +56,7 @@ class ReminderListServiceTest {
     @DisplayName("존재하지 않는 ID 조회 시 예외가 발생한다")
     void findByIdNotFound() {
         assertThatThrownBy(() -> reminderListService.findById(99L))
-                .isInstanceOf(RuntimeException.class)
+                .isInstanceOf(EntityNotFoundException.class)
                 .hasMessageContaining("99");
     }
 
@@ -104,8 +107,8 @@ class ReminderListServiceTest {
                 ReminderList.builder().name("미리알림").color("#007AFF").deletable(false).build());
 
         assertThatThrownBy(() -> reminderListService.delete(saved.getId()))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessageContaining("기본 리스트는 삭제할 수 없습니다");
+                .isInstanceOf(BusinessRuleException.class)
+                .hasMessageContaining("Default list cannot be deleted");
 
         assertThat(reminderListRepository.findById(saved.getId())).isPresent();
     }

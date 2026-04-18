@@ -24,9 +24,9 @@ export default function ReminderDetail({ reminder, onUpdate, onClose }: Props) {
     setRemindAt(reminder.remindAt?.slice(0, 16) || "");
     setPriority(reminder.priority);
     setFlagged(reminder.flagged);
-  }, [reminder]);
+  }, [reminder.id]);
 
-  const handleSave = () => {
+  const save = (overrides?: Partial<ReminderRequest>) => {
     onUpdate(reminder.id, {
       title,
       notes: notes || undefined,
@@ -34,6 +34,7 @@ export default function ReminderDetail({ reminder, onUpdate, onClose }: Props) {
       remindAt: remindAt || undefined,
       priority,
       flagged,
+      ...overrides,
     });
   };
 
@@ -55,11 +56,12 @@ export default function ReminderDetail({ reminder, onUpdate, onClose }: Props) {
 
       <div className="p-4 space-y-4">
         <div>
-          <label className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>Title</label>
+          <label htmlFor="detail-title" className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>Title</label>
           <input
+            id="detail-title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            onBlur={handleSave}
+            onBlur={() => save()}
             className="w-full mt-1 px-3 py-2 text-sm rounded-lg border outline-none focus:ring-2 focus:ring-[var(--apple-blue)]"
             style={{
               background: "var(--bg-primary)",
@@ -70,11 +72,12 @@ export default function ReminderDetail({ reminder, onUpdate, onClose }: Props) {
         </div>
 
         <div>
-          <label className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>Notes</label>
+          <label htmlFor="detail-notes" className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>Notes</label>
           <textarea
+            id="detail-notes"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            onBlur={handleSave}
+            onBlur={() => save()}
             rows={3}
             className="w-full mt-1 px-3 py-2 text-sm rounded-lg border outline-none resize-none focus:ring-2 focus:ring-[var(--apple-blue)]"
             style={{
@@ -86,11 +89,12 @@ export default function ReminderDetail({ reminder, onUpdate, onClose }: Props) {
         </div>
 
         <div>
-          <label className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>URL</label>
+          <label htmlFor="detail-url" className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>URL</label>
           <input
+            id="detail-url"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            onBlur={handleSave}
+            onBlur={() => save()}
             placeholder="https://"
             className="w-full mt-1 px-3 py-2 text-sm rounded-lg border outline-none focus:ring-2 focus:ring-[var(--apple-blue)]"
             style={{
@@ -102,14 +106,13 @@ export default function ReminderDetail({ reminder, onUpdate, onClose }: Props) {
         </div>
 
         <div>
-          <label className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>Date & Time</label>
+          <label htmlFor="detail-date" className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>Date & Time</label>
           <input
+            id="detail-date"
             type="datetime-local"
             value={remindAt}
-            onChange={(e) => {
-              setRemindAt(e.target.value);
-            }}
-            onBlur={handleSave}
+            onChange={(e) => setRemindAt(e.target.value)}
+            onBlur={() => save()}
             className="w-full mt-1 px-3 py-2 text-sm rounded-lg border outline-none focus:ring-2 focus:ring-[var(--apple-blue)]"
             style={{
               background: "var(--bg-primary)",
@@ -127,7 +130,7 @@ export default function ReminderDetail({ reminder, onUpdate, onClose }: Props) {
                 key={p}
                 onClick={() => {
                   setPriority(p);
-                  setTimeout(handleSave, 0);
+                  save({ priority: p });
                 }}
                 className={`flex-1 py-1.5 text-xs font-medium rounded-md border transition-colors ${
                   priority === p ? "text-white" : ""
@@ -148,9 +151,11 @@ export default function ReminderDetail({ reminder, onUpdate, onClose }: Props) {
           <label className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>Flagged</label>
           <button
             onClick={() => {
-              setFlagged(!flagged);
-              setTimeout(handleSave, 0);
+              const newFlagged = !flagged;
+              setFlagged(newFlagged);
+              save({ flagged: newFlagged });
             }}
+            aria-label={flagged ? "Remove flag" : "Add flag"}
             className="text-xl"
             style={{ color: flagged ? "var(--apple-orange)" : "var(--text-secondary)" }}
           >

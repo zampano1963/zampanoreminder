@@ -11,13 +11,15 @@ export default function ReminderListView() {
   const [reminders, setReminders] = useState<Reminder[]>([]);
   const [selected, setSelected] = useState<Reminder | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchReminders = useCallback(async () => {
     try {
+      setError(null);
       const data = await api.get<Reminder[]>("/api/reminders");
       setReminders(data);
     } catch (err) {
-      console.error("Failed to fetch reminders:", err);
+      setError(err instanceof Error ? err.message : "Failed to load reminders");
     } finally {
       setLoading(false);
     }
@@ -29,40 +31,49 @@ export default function ReminderListView() {
 
   const handleAdd = async (title: string) => {
     try {
+      setError(null);
       const created = await api.post<Reminder>("/api/reminders", { title });
       setReminders((prev) => [...prev, created]);
     } catch (err) {
-      console.error("Failed to create reminder:", err);
+      setError(err instanceof Error ? err.message : "Failed to create reminder");
     }
   };
 
   const handleToggle = async (id: number) => {
+    const original = reminders;
+    setReminders((prev) =>
+      prev.map((r) => (r.id === id ? { ...r, completed: !r.completed } : r))
+    );
     try {
       const updated = await api.patch<Reminder>(`/api/reminders/${id}/toggle`);
       setReminders((prev) => prev.map((r) => (r.id === id ? updated : r)));
       if (selected?.id === id) setSelected(updated);
     } catch (err) {
-      console.error("Failed to toggle reminder:", err);
+      setReminders(original);
+      setError(err instanceof Error ? err.message : "Failed to toggle reminder");
     }
   };
 
   const handleDelete = async (id: number) => {
+    const original = reminders;
+    setReminders((prev) => prev.filter((r) => r.id !== id));
+    if (selected?.id === id) setSelected(null);
     try {
       await api.delete(`/api/reminders/${id}`);
-      setReminders((prev) => prev.filter((r) => r.id !== id));
-      if (selected?.id === id) setSelected(null);
     } catch (err) {
-      console.error("Failed to delete reminder:", err);
+      setReminders(original);
+      setError(err instanceof Error ? err.message : "Failed to delete reminder");
     }
   };
 
   const handleUpdate = async (id: number, data: ReminderRequest) => {
     try {
+      setError(null);
       const updated = await api.put<Reminder>(`/api/reminders/${id}`, data);
       setReminders((prev) => prev.map((r) => (r.id === id ? updated : r)));
       setSelected(updated);
     } catch (err) {
-      console.error("Failed to update reminder:", err);
+      setError(err instanceof Error ? err.message : "Failed to update reminder");
     }
   };
 
@@ -88,6 +99,16 @@ export default function ReminderListView() {
             {incomplete.length} remaining
           </p>
 
+          {error && (
+            <div
+              className="mb-4 px-4 py-2.5 rounded-lg text-sm flex items-center justify-between"
+              style={{ background: "var(--apple-red)", color: "white" }}
+            >
+              <span>{error}</span>
+              <button onClick={() => setError(null)} className="ml-2 font-bold">✕</button>
+            </div>
+          )}
+
           <div className="space-y-0.5">
             {incomplete.map((r) => (
               <ReminderItem
@@ -100,6 +121,15 @@ export default function ReminderListView() {
               />
             ))}
           </div>
+
+          {incomplete.length === 0 && !error && (
+            <div className="text-center py-12">
+              <p className="text-lg mb-1" style={{ color: "var(--text-secondary)" }}>No reminders</p>
+              <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
+                Tap + to create your first reminder
+              </p>
+            </div>
+          )}
 
           <div className="mt-2">
             <AddReminder onAdd={handleAdd} />

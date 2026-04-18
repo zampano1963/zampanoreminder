@@ -1,5 +1,6 @@
 package zampano.ai.zampanoreminder.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ReminderRequest {
 
+    @NotBlank(message = "Title is required")
     private String title;
     private String notes;
     private String url;

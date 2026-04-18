@@ -108,7 +108,7 @@ class ReminderTest {
         Reminder reminder = Reminder.builder()
                 .title("Task")
                 .build();
-        reminder.setReminderList(list);
+        reminder.assignToList(list);
 
         assertThat(reminder.getReminderList()).isSameAs(list);
         assertThat(reminder.getReminderList().getName()).isEqualTo("Work");

@@ -1,7 +1,6 @@
 "use client";
 
 import { Reminder, Priority } from "@/types/reminder";
-import { api } from "@/lib/api";
 
 function priorityMark(priority: Priority): string {
   switch (priority) {
@@ -24,7 +23,7 @@ function priorityColor(priority: Priority): string {
 function formatDate(dateStr: string | null): string {
   if (!dateStr) return "";
   const date = new Date(dateStr);
-  return date.toLocaleDateString("ko-KR", {
+  return date.toLocaleDateString(undefined, {
     month: "short",
     day: "numeric",
     hour: "2-digit",
@@ -45,6 +44,9 @@ export default function ReminderItem({ reminder, selected, onSelect, onToggle, o
 
   return (
     <div
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onSelect(reminder); }}
       className={`group flex items-start gap-3 px-4 py-2.5 cursor-pointer rounded-lg transition-colors ${
         selected ? "bg-[var(--apple-blue)]/10" : "hover:bg-[var(--bg-secondary)]"
       }`}
@@ -55,6 +57,7 @@ export default function ReminderItem({ reminder, selected, onSelect, onToggle, o
           e.stopPropagation();
           onToggle(reminder.id);
         }}
+        aria-label={reminder.completed ? "Mark as incomplete" : "Mark as complete"}
         className="mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors"
         style={{
           borderColor: reminder.completed ? "var(--apple-blue)" : "var(--text-secondary)",
@@ -91,25 +94,21 @@ export default function ReminderItem({ reminder, selected, onSelect, onToggle, o
         )}
       </div>
 
-      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-        {reminder.flagged && (
-          <span style={{ color: "var(--apple-orange)" }}>⚑</span>
-        )}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            if (confirm("Delete this reminder?")) onDelete(reminder.id);
-          }}
-          className="text-xs px-1.5 py-0.5 rounded hover:bg-red-100"
-          style={{ color: "var(--apple-red)" }}
-        >
-          ✕
-        </button>
-      </div>
-
       {reminder.flagged && (
-        <span className="group-hover:hidden" style={{ color: "var(--apple-orange)" }}>⚑</span>
+        <span className="shrink-0" style={{ color: "var(--apple-orange)" }}>⚑</span>
       )}
+
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          if (confirm("Delete this reminder?")) onDelete(reminder.id);
+        }}
+        aria-label="Delete reminder"
+        className="text-xs px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-100"
+        style={{ color: "var(--apple-red)" }}
+      >
+        ✕
+      </button>
     </div>
   );
 }

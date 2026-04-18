@@ -117,7 +117,7 @@ class ReminderListTest {
                 .title("회의 참석")
                 .remindAt(LocalDateTime.now().plusHours(1))
                 .build();
-        reminder.setReminderList(list);
+        reminder.assignToList(list);
         list.getReminders().add(reminder);
 
         assertThat(list.getReminders()).hasSize(1);
