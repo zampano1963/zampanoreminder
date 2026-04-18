@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zampano.ai.zampanoreminder.domain.ReminderList;
+import zampano.ai.zampanoreminder.service.ports.in.ReminderListService;
 import zampano.ai.zampanoreminder.repository.ReminderListRepository;
 
 import java.util.List;
@@ -11,19 +12,22 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ReminderListService {
+public class DefaultReminderListService implements ReminderListService {
 
     private final ReminderListRepository reminderListRepository;
 
+    @Override
     public List<ReminderList> findAll() {
         return reminderListRepository.findAll();
     }
 
+    @Override
     public ReminderList findById(Long id) {
         return reminderListRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("ReminderList not found: " + id));
     }
 
+    @Override
     @Transactional
     public ReminderList create(String name, String color, String icon) {
         ReminderList list = ReminderList.builder()
@@ -34,6 +38,7 @@ public class ReminderListService {
         return reminderListRepository.save(list);
     }
 
+    @Override
     @Transactional
     public ReminderList update(Long id, String name, String color, String icon, int sortOrder) {
         ReminderList list = findById(id);
@@ -41,6 +46,7 @@ public class ReminderListService {
         return list;
     }
 
+    @Override
     @Transactional
     public void delete(Long id) {
         ReminderList list = findById(id);
